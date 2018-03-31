@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>函数声明，作用域，闭包</title>
+</head>
+
+<body>
+    <h4>变量提升,函数名的提升--变量提升即将变量声明提升到它所在作用域的最开始的部分</h4>
+	<b>用var声明的变量，会在js编译时得到优先获取，但是没有获取变量的赋值。如果不使用var而直接声明变量，则该变量为全局变量</b>
+	<b>JavaScript引擎将函数名视同变量名，所以采用function命令声明函数时，整个函数会像变量声明一样，被提升到代码头部；函数声明和函数表达式</b>
+</body>
+    <script>
+    console.log(a) // undefined,js会把a提前并赋值=undefined
+    var a = 100 // zhangshan,js会把函数提前到全局
+    fn('zhangshan')
+
+    function fn(name) {
+        // 函数声明
+        console.log(this) //指向window
+        console.log(arguments) //函数传入的参数
+        console.log(name)
+    }
+    // fn2() 2者区别是，这行会报错，js会把fn2当成变量先提前并赋值=undefined，并未执行后面的赋值
+    var fn2 = function() {
+        console.log(this) //指向window
+    }
+    fn2()
+
+    function ifFirstLoad() {
+        let _list = []
+        return function(id) {
+            if (_list.indexOf(id) >= 0) {
+                return false
+            } else {
+                _list.push(id)
+                return true
+            }
+        }
+    }
+    var ifFirstLoad = ifFirstLoad()
+    console.log(ifFirstLoad(10))
+    console.log(ifFirstLoad(10))
+    console.log(ifFirstLoad(30))
+    </script>
+
+</html>

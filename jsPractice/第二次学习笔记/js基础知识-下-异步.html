@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <h4>同步和异步的区别是什么，分别举一个同步和异步的例子</h4>
+    <h4>写个setTimeout的笔试题</h4>
+    <h4>前端使用异步的场景有哪些</h4>
+    <h4>什么是异步（对比同步）</h4>
+    <p>比如setTimeout可以实现异步，js是单线程，按顺序执行，setTimeout可以命令js推迟特定时间执行，并优先执行setTimeout后面的代码，而不是在那里等特定时间</p>
+    <p>而alert就是一个表现js是单线程的例子,alert会阻塞代码的运行</p>
+    <h4>何时需要异步</h4>
+    <p>在可能发生等待的情况，如请求</p>
+    <p>等待的过程不能像alert一样发生阻塞程序运行</p>
+    <h4>使用异步的场景</h4>
+    <p>定时任务：setTimeout,setInterval</p>
+    <p>网络请求，动态<img>加载</p>
+    <p>事件绑定</p>
+    <h4>日期和math函数</h4>
+    <p>获取2017-06-10格式时间--timeFormat</p>
+    <p>Math.random()</p>
+    <p>打乱数组排列顺序--shuffle</p>
+    <p>数组API：forEach()--简单遍历数组元素；map()--对每个数组操作后返回新数组；filter()--过滤符合条件数组，for in-遍历对象关键字,es5-every-数组里面每个都符合规则就返回true,some-数组里面只要有一个符合规则就返回true;sort</p> 
+</body>
+<script>
+//同步与异步
+console.log('start')
+var a = document.createElement('img')
+a.onload = function(){ 
+    console.log('a') // 图片的arc地址加载完成后自动触发
+}
+a.src = 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1501453763,2787276246&fm=200&gp=0.jpg'
+document.body.appendChild(a)
+console.log('end')
+var timeFormat = (formatStr) => {
+        let date = new Date(),
+            YYYY = date.getFullYear(),
+            MM = date.getMonth() + 1,
+            DD = date.getDate(),
+            hh = date.getHours(),
+            mm = date.getMinutes(),
+            ss = date.getSeconds()
+
+        formatStr = formatStr || 'YYYY-MM-DD';
+
+        (MM < 10) && (MM = '0' + MM);
+        (DD < 10) && (DD = '0' + DD);
+        let result = formatStr.replace("YYYY", YYYY)
+            .replace("MM", MM)
+            .replace("DD", DD)
+            .replace("hh", hh)
+            .replace("mm", mm)
+            .replace("ss", ss);
+        console.log(result)
+    }
+    //timeFormat('YYYY-MM-DD hh:mm:ss')
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min)
+}
+//打乱排序
+var shuffle = (arr) => {
+        let _arr = arr.slice(),
+            len = arr.length
+        for (let i = 0; i < len; i++) {
+            let j = getRandomInt(0, i),
+                t = _arr[i]
+            _arr[i] = _arr[j]
+            _arr[j] = t
+        }
+        console.log(arr)
+        console.log(_arr)
+    }
+shuffle(['23','34','46','75','84','65'])
+var arr = [1, 2, 10]
+var result = arr.every(function(item, index) {
+    return (item < 8)
+})
+console.log(result)
+var result1 = arr.some(function(item, index) {
+    return (item > 8)
+}) 
+console.log(result1)
+
+var obj = {
+	x: 20,
+	y: 60,
+	age: 50
+}
+var key
+for(key in obj){
+	if(obj.hasOwnProperty(key)){
+		console.log(key,obj[key])
+	}
+}
+</script>
+
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>jquery</title>
+</head>
+
+<body>
+    <ul id="list" class="list">
+        <li class="item">item1</li>
+        <li class="item">item2</li>
+        <li class="item">item3</li>
+        <li class="item">item4</li>
+        <li class="item">item5</li>
+    </ul>
+    <div id="box1" class="content">内容1</div>
+    <div id="box2" class="content">内容2</div>
+    <div id="box3" class="content">内容3</div>
+    <div id="box4" class="content">内容4</div>
+    <div id="box5" class="content">内容5</div>
+    <h4>书写高质量jQuery代码的12条经验</h4>
+    <p>尽量在body结束前才引入jQuery，而不是在head中</p>
+    <p>借助第三方提供的CDN来引入jQuery，同时注意当使用第三方CDN出现问题时，要引入本地的jQuery文件</p>
+    <p>如果在</body>前引入script文件的话，就不用写document.ready了，因为这时执行js代码时DOM已经加载完毕了。</p>
+<p>jQuery选择器的性能优先级，ID选择器快于元素选择器，元素选择器快于class选择器</p>
+<pre>
+	$('.home'); //1 
+	$('#nav .home'); //2 
+	$('#nav').find('.home'); //3 
+	3>2>1
+</pre>
+<p>缓存jQuery对象可以减少不必要的DOM查找 </p>
+<p>在变量前加$前缀，便于识别出jQuery对象。 </p>
+<p>将多条var语句合并为一条语句，我建议将未赋值的变量放到后面。 </p>
+<p>更短的 on(“click”) 用来取代类似 click() 这样的函数 </p>
+<p>正确使用事件委托 </p>
+<pre>
+	// 这样会为每个td绑上事件，在为100个单元格绑定click事件的测试中，两者性能相差7倍之多
+	$('#t').find('td').on('click', function () { $(this).css({ 'color': 'red', 'background': 'yellow' }); });
+	// 事件委托方式
+	$('#t').on('click', 'td', function () { $(this).css({ 'color': 'red', 'background': 'yellow' }); });
+</pre>
+<p>合并函数，对同一对象的操作，绑定函数尽可能合到一起</p>
+<pre>
+	// 糟糕 
+	$first.click(function(){ $first.css('border','1px solid red'); $first.css('color','blue'); }); 
+	// 建议 $first.on('click',function(){ $first.css({ 'border':'1px solid red', 'color':'blue' }); }); 
+	// 糟糕 
+	$second.html(value); $second.on('click',function(){ alert('hello everybody'); }); $second.fadeIn('slow'); $second.animate({height:'120px'},500); 
+	// 建议 $second.html(value); $second.on('click',function(){ alert('hello everybody'); }).fadeIn('slow').animate({height:'120px'},500); 
+</pre>
+<p>最小化DOM更新 重布局和重绘是WEB页面中最常见的也是最昂贵的两种操作。 当改变样式，而不改变页面几何布局时，将会发生重绘。隐藏一个元素或者改变一个元素的背景色时都将导致一次重绘。 当对页面结构进行更新时，将导致页面重布局
+</p>
+<pre>
+	//糟糕 for(var i=0; i<10000; i++){ $("#main table").append("<tr><td>aaaa</td></tr>"); } 
+	//建议 var tablerow = ""; for(var i=0; i<10000; i++){ tablerow += "<tr><td>aaaa</td></tr>"; } $("#main table").append(tablerow);
+</pre>
+<p>维持代码的可读性 </p>
+<pre>
+	// 糟糕 
+	$second.html(value); $second.on('click',function(){ alert('hello everybody'); }).fadeIn('slow').animate({height:'120px'},500); 
+	// 建议 $second.html(value); $second .on('click',function(){ alert('hello everybody');}) .fadeIn('slow') .animate({height:'120px'},500); 
+</pre>
+<p>原生函数总是最快的，这点不难理解，在代码书写中我们不应该忘记原生JS。</p>
+<p>坚持最新版本 </p>
+<script src="./js/jquery-3.2.1.min.js"></script>
+<script>
+$(document).ready(function() {
+    $("#list li").on('click', function(e) {
+        //$("#list li").eq($(this).index()).addClass('item-active').siblings().removeClass('item-active')
+        $(this).addClass('item-active').siblings().removeClass('item-active')
+        $('.content').hide().eq($(this).index()).show()
+    })
+
+    function clearObj(obj, objs) {
+        var len = objs.length,
+            b = {}
+        for (var i = 0; i < len; i++) {
+
+            b[objs[i]] = obj[objs[i]]
+            console.log(b[objs[i]])
+        }
+        console.log(b)
+        for (var k in obj) {
+            obj[k] = null
+        }
+        b = Object.assign(obj, b)
+        return b
+    }
+    var obj = {
+            'aa': 11,
+            'bb': 22,
+            'cc': 66,
+            'dd': 88
+        },
+        objs = ['aa', 'dd']
+    console.log(clearObj(obj, objs))
+})
+</script>
+</body>
+
+</html>

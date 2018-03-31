@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>css编写注意点</title>
+</head>
+<body>
+<input type="text" maxlength="10" minlength="3">
+	<h4>CSS选择器效率从高到低的排序如下：</h4>
+	<ul>
+		<li>ID选择器 比如#header</li>
+		<li>类选择器 比如.promo</li>
+		<li>元素选择器 比如 div</li>
+		<li>兄弟选择器 比如 h2 + p</li>
+		<li>子选择器 比如 li > ul</li>
+		<li>后代选择器 比如 ul a  </li>
+		<li>通用选择器 比如 *;[class*="col-"]</li>
+		<li>属性选择器 比如 type = “text”</li>
+		<li>伪类/伪元素选择器 比如 a:hover</li>
+		<li></li>
+	</ul>
+	<h4>高效的css选择器</h4> 
+		<li>CSS选择符是从右到左进行匹配,#nav li会去找所有的li，然后去确定父元素是不是#nav</li>
+		<li></li>
+		<li></li> 
+		<li>dom深度尽量浅。</li>
+		<li>减少inline javascript、css的数量。</li>
+		<li>使用现代合法的css属性。</li>
+		<li>不要为id选择器指定类名或是标签，因为id可以唯一确定一个元素。</li>
+		<li>避免后代选择符，尽量使用子选择符。原因：子元素匹配符的概率要大于后代元素匹配符。后代选择符;#tp p{} 子选择符：#tp>p{}</li>
+		<li>避免使用通配符，举一个例子，.mod .hd *{font-size:14px;} 根据匹配顺序,将首先匹配通配符,也就是说先匹配出通配符,然后匹配.hd（就是要对dom树上的所有节点进行遍历他的父级元素）,然后匹配.mod,这样的性能耗费可想而知.</li>
+		<li></li>
+	</ul>
+	<h4>CSS书写顺序</h4>
+	<ul>
+		<li>1.位置属性(position, top, right, z-index, display, float等)</li>
+		<li>2.大小(width, height, padding, margin)</li>
+		<li>3.文字系列(font, line-height, letter-spacing, color- text-align等)</li>
+		<li>4.背景(background, border等)</li>
+		<li>5.其他(animation, transition等)</li> 
+	</ul>
+	<h4>尽量使用CSS缩写属性</h4>
+	<ul>
+		<li>比如padding,margin,font,不要分开padding-left,又写个padding-right</li>
+		<li>颜色代码缩写:例如#000000 --- 写为#000</li>
+	</ul>
+	<h4>去掉小数点前的“0”</h4>
+	<ul>
+		<li>height:0.8px----改为height:.8px</li> 
+	</ul>
+	<h4>尽量使用CSS缩写属性</h4>
+	<ul>
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>
+	<h4>尽量使用CSS缩写属性</h4>
+	<ul>
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>
+	<h4>尽量使用CSS缩写属性</h4>
+	<ul>
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>构造函数</title>
+</head>
+<p>一个空对象，可以借用现有的构造函数，完成属性和方法的复制；优点就是能够通过instanceof识别对象，缺点是每次实例化一个对象，都会把属性和方法复制一遍；是方法执行的都是一样的代码，所以没有必要复制，存在多份，浪费内存.这就是缺点，通过原型(prototype)对象，把方法写在构造函数的原型对象上，可以较好的解决这个问题</p>
+<pre>
+function Foo(name,age){
+  this.name=name;
+  this.age=age;
+}
+var foo=new Foo("Tom",14);
+foo.name;//Tom
+foo.age;//14	
+</pre>
+<p>
+使用构造函数实例化发生的流程：
+
+1.建立一个foo的空对象。
+
+2.将构造函数中的Foo的this指向对象foo。
+
+3.foo的_proto_属性指向Foo函数的prototype原型。
+
+4.执行构造函数中的代码。	
+</p>
+<p>相对于普通函数，构造函数中的this是指向实例的，而普通函数调用中的this是指向windows的。</p>
+<body>
+    <script>
+	    function CreateObj(uName) {
+	        this.userName = uName;
+	    }
+	    CreateObj.prototype.showUserName = function() {
+	        return this.userName;
+	    }
+	    var obj1 = new CreateObj('ghostwu');
+	    var obj2 = new CreateObj('卫庄');
+	    console.log(obj1.showUserName === obj2.showUserName);
+    </script>
+</body>
+
+</html>

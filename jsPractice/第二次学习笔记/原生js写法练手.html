@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<div id="div1">
+	<a href="#" id="a1" class="item">a1</a>
+	<span href="#" id="a2" class="item remove">a2</span>
+	<a href="#" id="a3" class="item">a3</a>
+	<span href="#" id="a4" class="item">a4</span>
+</div>
+</body>
+<script>
+	// 函数法  
+	var $ = function (el) {  
+	  return document.querySelectorAll(el);  
+	}
+	//当'.item'不存在的时候会报错
+	//[].forEach.call($('.item'),function(elem){ console.log(elem) }) 
+	//$('.item')[0].setAttribute('data-name','addkey')
+	$('.item').forEach( (item)=>{item.classList.add('addclass')})
+	$('.item').forEach( (item)=>{item.classList.remove('remove')})
+	$('.item').forEach( (item)=>{item.classList.toggle('toggle')})
+	$('.item').forEach( (item)=>{item.classList.toggle('toggle')})
+
+	var p = document.createElement('p')
+	p.classList.add('addss')
+	$('#div1')[0].appendChild(p)
+
+	//var cloneDom = $('#a4')[0].cloneNode()
+	var perDom = $('#a3')[0].previousElementSibling;
+	var nextDom = $('#a3')[0].nextElementSibling;
+	console.log(nextDom)
+
+	if (window.XMLHttpRequest){
+		// code for IE7+, Firefox, Chrome, Opera, Safari
+  		xmlhttp=new XMLHttpRequest(); 
+	} else { // code for IE6, IE5
+  		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  	}
+
+
+</script>
+</html>

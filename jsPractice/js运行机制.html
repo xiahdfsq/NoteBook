@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>js运行机制</title>
+</head>
+<h4>任务队列</h4>
+<p>任务队列存在多个，同一任务队列内，按队列顺序被主线程取走；不同任务队列之间，存在着优先级，优先级高的优先获取</p>
+<ul>
+    <li>任务队列的类型:异步 和 同步</li>
+    <li></li>
+    <li></li>
+    <li></li>
+</ul>
+<h4>eventloop</h4>
+
+
+<h4>同步和异步有哪些</h4>
+<p>异步:setTimeout； setInterval； Dom事件--例如按钮事件； es6的Promise；ajax</p>
+
+
+<h4>同步队列和异步队列,统称为任务队列，任务会被推入主线程去执行</h4>
+<p>当js主线程自上而下的读取编译过程中，遇到异步函数会时，把函数放到异步队列， PS如果是有定时的异步函数先挂起，js执行的过程中会定时器也会工作，到一定事件时把函数放到异步队列，如果有多个定时函数按时间放入异步队列，注意不按写的先后顺序； 当主线程执行完毕完成后再去执行异步队列的任务，这个时候也是按顺序执行的
+</p>
+<ul>
+    <li>主线程读取JS代码，此时为同步环境，形成相应的堆和执行栈；</li>
+    <li>主线程遇到异步任务，指给对应的异步进程进行处理（WEB API）;</li>
+    <li>异步进程处理完毕（Ajax返回、DOM事件处罚、Timer到等），将相应的异步任务推入任务队列；</li>
+    <li>主线程执行完毕，查询任务队列，如果存在任务，则取出一个任务推入主线程处理（先进先出）</li>
+    <li>重复执行step2、3、4；称为事件循环</li>
+</ul>
+<body>
+    <script>
+    for (var i = 1; i <= 3; i++) {
+        setTimeout(function() {
+            console.log(i);
+        }, 0);
+    }; // 打出4次
+    for (let i = 1; i <= 3; i++) {
+        setTimeout(function() {
+            console.log(i);
+        }, 0);
+    }; // 打出 1 2 3
+    for (var i = 1; i <= 3; i++) {
+        (function(i) {
+            setTimeout(function() {
+                console.log(i);
+            }, 0);
+        })(i);
+
+    }; // 打出 1 2 3
+
+    function f1() {
+        console.log('f1');
+        console.time('time span');
+
+    }
+
+    function f2() {
+        console.log('f2');
+        console.timeEnd('time span');
+
+    }
+
+    setTimeout(f2, 200);
+    setTimeout(f1, 100);
+
+    function waitForMs(n) {
+
+        var now = Date.now();
+        
+        while (Date.now() - now < n) {
+            console.log('while');
+        }
+
+    }
+
+    waitForMs(500);
+    //  time span f2: 0.06103515625ms
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>页面性能问题</title>
+</head>
+<body>
+	<ul>
+		<li>页面资源合并，减少HTTP请求</li>
+		<li>非核心代码异步加载-异步加载方式-异步加载区别</li>
+		<li>利用浏览器缓存-缓存的分类-缓存的原理--PS与localstorage内存不同</li>
+		<li>使用cdn</li>
+		<li>预解析DNS：https和一些老化的浏览器是默认关闭dns的</li>
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>
+	<h4>性能优化</h4>
+    <p>图片优化：图片格式，尽量给图片定高宽，图片懒加载优化，下拉加载更多</p>
+    <img src="./default.png" alt="" id="img" data-realsrc="realImgPathUrl.png">
+    <pre>
+    	var img1 = document.getElementById('img')
+		img1.src = img1.getAttribute('data-realsrc')
+	</pre>
+	<h4>打开预解析DNS</h4>
+	<p><meta http-equiv="x-dns-prefetch-control" content="on" />'</p>
+	<p><link rel="dns-prefetch" href="http://bdimg.share.baidu.com" /></p>
+	<h4>异步加载方式和区别</h4>
+	<p>方式：动态脚本加载，defer,async</p>
+	<p>区别:defer在html解析完后才会执行，如果是多个按照加载的顺序依次执行;<script src="./js/defer.js" defer></script></p>
+	<p>区别:asyncs是在加载完后立即执行，执行顺序和加载顺序无关;<script src="./js/async.js" async></script></p>
+	<h4>浏览器缓存：就是备份，副本到本地磁盘下</h4>
+	<p>缓存的分类:分为强缓存，协商缓存；</p>
+	<pre>
+		强缓存：
+		Expires Expires:Thu.21 Jan 2017 23:39:02 GMT--绝对时间，服务器下发时间
+		Cache-Control Cache-Control:max-age=3600--以这个时间为准
+	</pre>
+	<pre>
+		协商缓存：
+		Last-Modified if-Modified-Since Lasr-Modified:Wed,26 Jan 2017 00:35: GMT
+		Etag if-None-Match
+	</pre>
+	<p></p>
+	<h4></h4>
+	<p></p>
+	<p></p>
+</body>
+</html>

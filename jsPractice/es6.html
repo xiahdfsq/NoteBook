@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>es6</title>
+</head>
+
+<body>
+    <script>
+    /*const arr = ['item1', 'item2', 'item3', 'item4', 'item5'],
+    	sections = [
+        	{ content: 'section1', index: 0 },
+        	{ content: 'section2', index: 2 }
+      	]  
+
+    //方法1
+    const injectSections = (items, sections) => {
+    	for(let k of sections) {
+    		items[k.index] = [k.content, items[k.index]];		
+    	} 
+    	//只能做2成遍历第3层数组不会
+    	return [].concat(...items);
+    }
+    //方法2
+    const injectSections = (items, sections) => {
+        const arr = [...items]
+        for (let [key, item] of sections.entries()) { 
+          arr.splice(arr.indexOf(items[item.index]), 0, item.content);
+        }
+        return arr;
+    }
+    console.log(injectSections(arr,sections))*/  
+
+    /*function* flatten2(arr) {
+		arr = arr.length ? arr.toString().split(',').map(x => Number.parseInt(x)) : []
+		for(let o of arr) yield o 
+	}
+    const numbers = flatten2([1, [[2,15,18,46], 3, 4], 5])
+    console.log(numbers)
+    console.log(numbers.next().value)
+    console.log(numbers.next().value)
+    console.log(numbers.next().value)*/
+/*    Map.prototype.filterKeys = function(fn) {
+      return new Map([...this].filter(([k, v]) => fn(k)));
+    }
+
+    Map.prototype.filterValues = function(fn) {
+      return new Map([...this].filter(([k, v]) => fn(v)));
+    }
+    const m = new Map([['Jerry', 12], ['Jimmy', 13], ['Tomy', 14]])
+
+    m.filterKeys((key) => key.startsWith('J')) // => Map { Jerry => 12, Jimmy => 13 }
+    m.filterValues((val) => val >= 13) // => Map { Jimmy => 13, Tomy => 14  }
+
+    // 原有的 map 保持不变
+    console.log(m) // => Map { Jerry => 12 , Jimmy => 13, Tomy => 14 } */
+
+    class Point{
+        constructor(x,y){
+            this.x = x;
+            this.y = y;
+        }
+        say(){
+            console.log(this)
+            console.log(this.x + this.y)
+        }
+    }
+    class PointHeight extends Point{
+        constructor(){
+            super()
+            this.z = z
+        }
+    }
+    var p = new Point(10,20)
+    p.say()
+    </script>
+</body>
+
+</html>

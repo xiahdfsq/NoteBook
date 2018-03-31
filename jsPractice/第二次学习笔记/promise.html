@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>promise</title>
+    <style>
+    ul {
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    /*画3个圆代表红绿灯*/
+    
+    ul >li {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        opacity: 0.2;
+        display: inline-block;
+    }
+    /*执行时改变透明度*/
+    
+    ul.red >#red,
+    ul.green >#green,
+    ul.yellow >#yellow {
+        opacity: 1.0;
+    }
+    /*红绿灯的三个颜色*/
+    
+    #red {
+        background: red;
+    }
+    
+    #green {
+        background: green;
+    }
+    
+    #yellow {
+        background: yellow;
+    }
+    </style>
+</head>
+
+<body>
+    <ul id="traffic" class="">
+        <li id="green"></li>
+        <li id="yellow"></li>
+        <li id="red"></li>
+    </ul>
+    <pre>
+使用promise 实现红绿灯颜色的跳转
+绿灯执行三秒后
+黄灯执行四秒后
+红灯执行五秒
+</pre>
+    <p>优点： 有了 Promise 对象，就可以将异步操作以同步操作的流程表达出来，避免了层层嵌套的回调函数。此外，Promise 对象提供统一的接口，使得控制异步操作更加容易。</p>
+    <p>Promise的构造函数中代码是同步执行的，但是then方法是异步执行的，then方法需要等到等到resolve函数执行时才得到执行。</p>
+    <p>Promise一旦执行了resolve函数后，就不会再执行reject和其他的resolve函数了。一旦Promise执行了reject函数，将会被catch函数捕获，执行catch中的代码</p>
+    <p>一个promise可能有三种状态：等待（pending）、已完成（fulfilled）、已拒绝（rejected）</p>
+    <p>一个promise的状态只可能从“等待”转到“完成”态或者“拒绝”态，不能逆向转换，同时“完成”态和“拒绝”态不能相互转换。</p>
+    <p>promise必须实现then方法（可以说，then就是promise的核心），而且then必须返回一个promise，同一个promise的then可以调用多次，并且回调的执行顺序跟它们被定义时的顺序一致。</p>
+    <p>then方法接受两个参数，第一个参数是成功时的回调，在promise由“等待”态转换到“完成”态时调用，另一个是失败时的回调，在promise由“等待”态转换到“拒绝”态时调用。同时，then可以接受另一个promise传入，也接受一个“类then”的对象或方法，即thenable对象。ajax就是一个thenable对象。 </p>
+    <pre>
+三.ES6 Promise基本的API
+1. Promise.resolve() //生成一个成功的promise对象
+2. Promise.reject() ////生成错误的一个promise对象
+3. Promise.prototype.then() //核心部分
+
+返回一个新的Promise。
+4. Promise.prototype.catch() //异常捕获
+**5. Promise.all() **
+
+接收 promise对象组成的数组作为参数(Promise.all方法的参数可以不是数组，但必须具有Iterator接口)。
+当这个数组里的所有promise对象 全部变为resolve或遇到第一个reject状态的时候，它才会去调用 .then 方法。
+传递给 Promise.all 的promise并不是一个个的顺序执行的，而是 同时开始、并行执行的。
+6. Promise.race() //最先执行的promise结果
+
+只要有一个promise对象进入 resolve 或者 reject 状态的话，就会调用后面的.then方法。
+如果有一个promise对象执行完成了，后面的还会不会再继续执行了呢？ 在 ES6 Promises 规范中，也没有取消(中断)promise对象执行的概 念，我们必须要确保promise最终进入resolve or reject状态之一。所以，后面的promise对象还是会继续执行的。 
+</pre>
+</body>
+<script>
+async function timeout(ms) {
+  await new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
+async function asyncPrint(value, ms) {
+  await timeout(ms);
+  console.log(value);
+}
+
+asyncPrint('hello world', 2000);
+/*var proposeToMissHan = (isOK) => {
+  return new Promise((resolve,reject)=>{
+    setTimeout(()=>{
+        if(isOK){
+          resolve('OK')
+        }else { 
+          //reject(new Error('No'))
+          reject('No')
+        }
+    },3000)
+    
+  })
+}
+proposeToMissHan(false).then((res)=>{
+  console.log('sussces'+res)
+}).catch((res)=>{
+  console.log('erro'+res)
+})*/
+/*function timeout(timer) {
+    return function() {
+        return new Promise(function(resolve, reject) {
+            setTimeout(resolve, timer)
+        })
+    }
+}
+var green = timeout(3000);
+var yellow = timeout(4000);
+var red = timeout(5000);
+var traffic = document.getElementById("traffic");
+(function restart() {
+    'use strict' //严格模式
+    console.log("绿灯" + new Date().getSeconds()) //绿灯执行三秒 
+    traffic.className = 'green';
+    green().then(function() {
+        console.log("黄灯" + new Date().getSeconds()) //黄灯执行四秒
+        traffic.className = 'yellow';
+        return yellow();
+    }).then(function() {
+        console.log("红灯" + new Date().getSeconds()) //红灯执行五秒
+        traffic.className = 'red';
+        return red();
+    }).then(function() {
+        restart()
+    })
+})();*/
+/*const start = Date.now() function light(time){ return new Promise((resolve)=>{ setTimeout(()=>{ resolve('red') },time) }) } [0,1000,2000,3000,4000].forEach((item)=>{ light(item).then((res)=>{ console.log(res, Date.now() - start) }) })
+ */
+/*上述代码中，分别生成了Promise1和Promise2，而且它们是两个Promise。
+
+首先会打印出promise1，但是promise1中有个定时器，此时还并未执行resolve，因此会处于pending状态。
+
+promise2是由promise1执行结束后再执行的，因为promise1还未执行完毕，因此promise2也处于pending状态。
+
+等到定时器一秒后，promise执行了resolve('success')，promise状态变为fulfilled。此时执行promise2，但是在promise2内抛出一个Error，因此控制台会打印出Error的内容。
+
+等到2秒钟后，第二个定时器触发，直接输出promise1，此时promise状态已经变为fulfilled，不会再更改，因此输出{'success'}。
+
+promise2状态已经变为rejected，其内容就为Error: error!!!。*/
+/*const promise1 = new Promise((resolve,reject)=>{
+	setTimeout(()=>{		 
+		resolve('success') 
+	},1000)
+})
+const promise2 = promise1.then(()=>{
+	throw new Error('this is a error!!!')
+}).catch((res)=>{
+	console.log(res)
+})
+console.log('promise1', promise1)
+console.log('promise2', promise2)
+
+setTimeout(()=>{
+	console.log('promise1', promise1)
+	console.log('promise2', promise2)	
+},2000)*/
+//每个异步在编译的时候就挂起，同时设置好了各自的定时器,在单线程里面空闲下来后，开启计时器
+/*const start = Date.now()
+const promise = new Promise((resolve,reject)=>{
+	setTimeout(()=>{
+		for(let i=0;i<200;i++){
+			console.log(i)
+		}
+		resolve('return') 
+	},1000)
+})
+promise.then((res)=>{
+	console.log(res,Date.now() - start)
+})
+promise.then((res)=>{
+	console.log(res,Date.now() - start)
+})*/
+/*var promise = new Promise((resolve,reject)=>{
+	console.log(1); 
+	resolve('resultData')
+	console.log(2);
+})
+promise.then((val)=>{
+	console.log(val)
+})
+console.log(4);*/ // 1 2 4 resultData Promise的构造函数中代码是同步执行的，但是then方法是异步执行的，then方法需要等到等到resolve函数执行时才得到执行。
+
+/*Promise.resolve('a').then((res)=>{
+	console.log(res)
+	return 'b'
+}).catch((res)=>{
+	console.log(res)
+	return 'c'
+}).then((res)=>{
+	console.log(res)
+})*/
+//示例
+function getURL(URL) {
+    return new Promise(function(resolve, reject) {
+        var req = new XMLHttpRequest();
+        //open第三个参数true为起步请求，是默认的
+        req.open('GET', URL, true);
+        req.onload = function() {
+            if (req.status === 200) {
+                //resolve表示给then传的值
+                resolve(req.responseText);
+            } else {
+                reject(new Error(req.statusText));
+            }
+        };
+        req.onerror = function() {
+            reject(new Error(req.statusText));
+        };
+        req.send();
+    });
+}
+// 运行示例
+var URL = "http://www.baidu.com";
+/*getURL(URL).then(function onFulfilled(value){
+    console.log(value); 
+}).catch(function onRejected(error){
+    console.error(error);
+});*/
+/*其实 .catch 只是 promise.then(undefined, onRejected) 的别名
+而已， 如下代码也可以完 成同样的功能。*/
+
+//getURL(URL).then(onFulfilled, onRejected);
+</script>
+
+</html>

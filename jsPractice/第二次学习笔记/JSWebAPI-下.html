@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>JSWebAPI-下</title>
+    <style>
+    pre {
+        background: #d4cfd4;
+    }
+    
+    .item.item-active {
+        color: #f10;
+    }
+    </style>
+</head>
+
+<body>
+    <h4>JS与Jquery的事件委托</h4>
+    <p>概念:什么是事件委托：通俗的讲，事件就是onclick，onmouseover，onmouseout，等就是事件，委托呢，就是让别人来做，这个事件本来是加在某些元素上的，然而你却加到别人身上来做，完成这个事件。</p>
+    <p>原理:利用冒泡的原理，把事件加到父级上，触发执行效果。</p>
+    <p>事件源:跟this作用一样(他不用看指向问题，谁操作的就是谁),event对象下的</p>
+    <p>使用情景:•为DOM中的很多元素绑定相同事件:•为DOM中尚不存在的元素绑定事件；</p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <h4>编写一个通用的事件监听函数--更实战例子js-bindEvent()</h4>
+    <pre>
+		//ie低版本attachEvent绑定事件
+		function bindEvent(elem,type,fn){
+			elem.addEventListener(type,fn)
+		}
+		var a = document.getElementById('link')
+		bindEvent(a,'click',function(e){
+			e.preventDefault()//阻止默认行为
+			alert('clicked')
+		})
+	</pre>
+    <h4>描述一个事件冒泡--例子见js-maopao()</h4>
+    <p>冒泡，在节点上绑定了事件，点击时，事件会向父节点冒泡，即激活事件。不会向下、兄弟节点去冒泡</p>
+    <p>阻止冒泡--e.stopPropagation()</p>
+    <h4>对于一个无线下拉的图片，怎么给每个图片绑定个事件--js-maopao()</h4>
+    <h4>Ajax 写法</h4>
+    <p>readyState状态形式</p>
+    <p>0--（未初始化）还没有调用send()方法</p>
+    <p>1--（载入）已调用send()方法，正在发动请求</p>
+    <p>2--（载入完成）send()方法已经执行完成，已经接受到全部响应内容</p>
+    <p>3--（交互）正在解析响应内容</p>
+    <p>4--（完成）响应内容解析完成，可以在客户端调用了</p>
+    <p>status</p>
+    <p>2XX--200请求成功</p>
+    <p>3XX--需要重定向，直接跳转</p>
+    <p>4XX--404客户端请求错误，一般是请求地址错误</p>
+    <p>5XX--服务端错误，503</p>
+    <pre>
+		var xhr = new XMLHttpRequest()
+		//创建一个 get 请求，true 表示采用异步，是默认的
+		xhr.open('GET','http://gank.io/api/data/Android/10/1',false)
+		xhr.onreadystatechange = function(){
+			if(xhr.readyState == 4){
+				if(xhr.status){
+					console.log(xhr.responseText)
+				}
+			}
+		}
+		xhr.send(null)
+	</pre>
+    <h4>ajax跨域</h4>
+    <p>浏览器有同源策略，不允许访问其他域的接口。怎么算跨域：协议--http/https;域名--www.baidu.com；端口port--8080；有一个不同就是跨域</p>
+    <p>所有跨域请求，需要通过信息方允许才可以请求</p>
+    <p>img/link/script 这3个标签允许跨域加载资源</p>
+    <p>img可以用于打点统计;link/script可以使用cdn;script可以使用JSONP</p>
+    <p></p>
+    <h4>存储--local Storage--cookie--sessionStorage区别</h4>
+    <p>cookie--本来用于客户端与服务端通信的，也有本地存储能力，缺点：小，只有4Kb,每次请求会带着，影响效率，API简单，需要封装才能用-document.cookie</p>
+    <p>session Storage--h5出来后的标准，最大5M； localStorage.setItem(key,value)/sessionStorage.setItem(key,value) localStorage.getItem(key)/sessionStorage.getItem(key)
+    </p>
+    <p>ios safari 隐藏模式下 localStorage.getItem 建议使用try-catch封装下</p>
+    <h4>解决办法：</h4>
+    <p>解决办法：1、JSONP：使用方式就不赘述了，但是要注意JSONP只支持GET请求，不支持POST请求。2、代理：例如www.123.com/index.html需要调用www.456.com/server.php，可以写一个接口www.123.com/server.php，由这个接口在后端去调用www.456.com/server.php并拿到返回值，然后再返回给index.html，这就是一个代理的模式。相当于绕过了浏览器端，自然就不存在跨域问题。3、PHP端修改header（XHR2方式）在php接口脚本中加入以下两句即可：header('Access-Control-Allow-Origin:*');//允许所有来源访问header('Access-Control-Allow-Method:POST,GET');//允许访问的方式</p>
+    <div id="div1">
+        <a href="#" id="a1" class="item">a1</a>
+        <span href="#" id="a2" class="item">a2</span>
+        <a href="#" id="a3" class="item">a3</a>
+        <span href="#" id="a4" class="item">a4</span>
+    </div>
+</body>
+<script>
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000)); 
+    console.log(d.toGMTString())
+    var expires = "expires=" + d.toGMTString();
+    document.cookie = cname + "=" + cvalue + "; " + expires;
+}
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i].trim();
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+function checkCookie() {
+    var user = getCookie("username");
+    if (user != "") {
+        alert("欢迎 " + user + " 再次访问");
+    } else {
+        user = prompt("请输入你的名字:", "");
+        if (user != "" && user != null) {
+            setCookie("username", user, 30);
+            console.log(getCookie('username'))
+        }
+    }
+}
+checkCookie()
+function xhl() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "http://gank.io/api/day/history", false)
+        //console.log('aa')
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4) {
+            if (xhr.status) {
+                console.log(xhr.responseText)
+            }
+        }
+    }
+}
+//xhl()
+function maopao() {
+    var id = document.getElementById('div1')
+    id.addEventListener('click', function(e) {
+        e.preventDefault()
+        var target = e.target
+        console.log(e)
+        target.parentNode.childNodes.forEach((elem) => {
+            if (elem.classList) {
+                elem.classList.remove('item-active')
+            }
+        })
+        target.classList.add('item-active')
+
+        if (target.nodeName === 'A') {
+            console.log(target.innerHTML)
+        }
+    })
+}
+//maopao()
+function bindEvent(elem, type, selector, fn) {
+    if (fn == null) {
+        fn = selector
+        selector = null
+    }
+    elem.addEventListener(type, function(e) {
+        if (selector) {
+            var target = e.target
+            console.log(selector)
+            if (target.matches(selector)) { //elem.matches()返回的是true/false,selector可以是id名,class名,标签名
+                fn.call(target, e) //将上下文指向了target
+                    //fn(e) //这个将会让this指向window
+            }
+        } else {
+            fn(e)
+        }
+    })
+}
+//使用代理委托方式
+var id = document.getElementById('div1')
+    /*bindEvent(id,'click','a',function(e){
+    	e.preventDefault()
+    	console.log(this.innerHTML)
+    })*/
+    //不使用代理
+var a = document.getElementById('a1')
+bindEvent(id, 'click', function(e) {
+    e.preventDefault()
+    console.log(a.innerHTML)
+})
+</script>
+
+</html>
