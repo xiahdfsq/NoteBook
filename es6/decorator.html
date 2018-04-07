@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Decorator</title>
+</head>
+<body>
+	<script>
+	@testable
+	class MyTestableClass {
+	  // ...
+	}
+
+	function testable(target) {
+	  target.isTestable = true;
+	}
+
+	MyTestableClass.isTestable
+	</script>
+</body>
+</html>

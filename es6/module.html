@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<p>es6模块化的思想是尽量的静态化，使得编译的时候就确定依赖关系，可以做到特定输出，按需导入；es6加载称为编译时加载或者静态加载，即es6可以在编译时就完成模块加载</p>
+	<p>即 ES6 可以在编译时就完成模块加载，效率要比 CommonJS 模块的加载方式高</p>
+	<p>默认使用严格模式"use strict"</p>
+	<p>import命令输入的变量是只读的，不允许更改,如果导入的是一个对象，改写a的属性是允许的，但是会影响其他的导入结果;如果是整体加载，就不运行修改</p>
+	<p>export default在一个模块中只能用一次，命令其实只是输出一个叫做default的变量，所以它后面不能跟变量声明语句。引入的时候可以任意命名，不用花括号
+	// 正确
+	export default 42;
+	// 报错
+	export 42;</p>
+	<p>import().then().catch()函数可以完成类似node的require动态效果,比如按需加载；条件加载；动态的模块路径</p>
+	<p>ES6 模块与 CommonJS 模块的差异</p>
+	1:CommonJS 模块输出的是一个值的拷贝，ES6 模块输出的;
+		CommonJS是值的引用一旦输出一个值，模块内部的变化就影响不到这个值。
+	2:CommonJS 模块是运行时加载，ES6 模块是编译时输出接口
+	<p>浏览器的加载</p>
+	<!-- 页面内嵌的脚本 -->
+	<script type="application/javascript">
+	  // module code
+	</script>
+
+	<!-- 外部脚本 -->
+	<script type="application/javascript" src="./module2.js">
+	</script>
+	<!-- 异步加载 -->
+	<!-- defer会等到整个页面在内存中正常渲染结束（DOM 结构完全生成，以及其他脚本执行完成），才会执行，多个按书写顺序 -->
+	<script src="./module2.js" defer></script>
+	<!-- async一旦下载完，渲染引擎就会中断渲染，执行这个脚本以后，再继续渲染。 ，多个不能保证顺序 -->
+	<script src="./module2.js" async></script>
+
+	<!-- es6模块加载声明用type="module" 会默认是异步的 相当于defer -->
+	<script type="module" src="./module2.js"></script>
+	<!-- 等同于 -->
+	<script type="module" src="./module2.js" defer></script>
+	<!-- async也可以运用，但这时模块只要加载完成，渲染引擎就会中断渲染立即执行。执行完成后，再恢复渲染。 -->
+	<script type="module" src="./module2.js" async></script>
+</body>
+</html>

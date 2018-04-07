@@ -5,13 +5,25 @@
 	<title>Document</title>
 </head>
 <body>
-在本地项目下：gitbush=>git init => git add.  添加所有文件到本地仓库暂存区  =》 
-git commit -m "注释语句" 将缓冲区提交到本地缓存区 =》 在git上建立自己的仓库，获得地址=》
-git remote add origin URL  本地项目关联github URL =》git pull origin master =》 
-git push -u origin master
+在本地项目下：
+gitbush
+=>git init 
+=> git add.  添加所有文件到本地仓库暂存区  
+=》git commit -m "注释语句" 将缓冲区提交到本地缓存区 =》 在git上建立自己的仓库，获得地址
+=》git remote add origin URL  本地项目关联github URL 
+=》git pull origin master 
+=》git push -u origin master
 git reset HEAD 撤销add的全部文件
 git commit命令将修改从暂存区提交到本地版本库
 
+
+更新代码到github上面去
+=》git status 检查有没有变化的代码
+=》git add *
+=》git commit -m '备注'
+=》git pull
+=》git push origin master
+=》
 1： 修改git网络代理地址  git config --global http.proxy (172.31.2.3:8080)
 修改当前仓库的网络代理，git config --local http.proxy (192.168.4.12:8080 )
 2： git init # 在当前目录新建一个Git代码库
