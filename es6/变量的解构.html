@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <ul>
+        <li>数组的解构</li>
+        <li>let [foo, [[bar], baz]] = [1, [[2], 3]]---foo // 1，bar // 2，baz // 3</li>
+        <li>let [x, y, ...z] = ['a'];--x // 1，y // 3</li>
+        <li>let [head, ...tail] = [1, 2, 3, 4];--head // 1，tail // [2, 3, 4]</li>
+        <li>let [x, y, ...z] = ['a'];--x // "a"，y // undefined，z // []</li>
+        <li>let [x, y, z] = new Set(['a', 'b', 'c']);--x // "a"</li>
+        <li>x // "a"，当结构不成功，严格为undefined是等于默认值</li>
+        <li>let [x = 1, y = x] = [2]; // x=2; y=2</li>
+        <li>let [x = 1, y = x] = [1, 2]; // x=1; y=2</li>
+    </ul>
+    <ul>
+        <li>对象的结构赋值--对象的解构赋值的内部机制，是先找到同名属性，然后再赋给对应的变量。真正被赋值的是后者，而不是前者。</li>
+        <li>let { foo: foo, bar: bar } = { foo: "aaa", bar: "bbb" };--其完整写法</li>
+        <li>let { foo: baz } = { foo: "aaa", bar: "bbb" };--baz // "aaa"，foo // error: foo is not defined</li>
+        <li>解构也可以用于嵌套结构的对象。会一层一层结构下去，属性变成模式--见JS-qiantaojiegou()</li>
+        <li>默认值：var {x: y = 3} = {};---y // 3</li>
+        <li>如果要将一个已经声明的变量用于解构赋值</li>
+        <li>由于数组本质是特殊的对象，因此可以对数组进行对象属性的解构。</li>
+        <li>let arr = [1, 2, 3];
+			let {0 : first, [arr.length - 1] : last} = arr;
+			first // 1
+			last // 3</li> 
+    </ul>
+    <ul>
+        <li>字符串也可以解构赋值。这是因为此时，字符串被转换成了一个类似数组的对象。</li>
+        <li>let {length : len} = 'hello';--len // 5</li>
+        <li>解构赋值时，如果等号右边是数值和布尔值，则会先转为对象。</li>
+        <li>解构赋值的规则是，只要等号右边的值不是对象或数组，就先将其转为对象。由于undefined和null无法转为对象，所以对它们进行解构赋值，都会报错。</li>
+        <li>let { prop: x } = undefined; // TypeError</li>
+        <li>let { prop: y } = null; // TypeError</li>
+        <li>let {toString: s} = 123;</li>
+        <li>s === Number.prototype.toString // true</li>
+        <li>let {toString: s} = true;</li>
+        <li>s === Boolean.prototype.toString // true</li>
+    </ul>
+    <ul>
+        <li>函数的参数也可以使用解构赋值。</li>
+        <li>function add([x, y]){  return x + y;} add([1, 2]); // 3</li>
+        <li>[[1, 2], [3, 4]].map(([a, b]) => a + b); // [ 3, 7 ]</li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+    <script>
+    qiantaojiegou() {
+        const node = {
+            loc: {
+                start: {
+                    line: 1,
+                    column: 5
+                }
+            }
+        };
+
+        let {
+            loc,
+            loc: {
+                start
+            },
+            loc: {
+                start: {
+                    line
+                }
+            }
+        } = node;
+        line // 1
+        loc // Object {start: Object}
+        start // Object {line: 1, column: 5}
+    }
+    let map = new Map()
+    map.set('one','cindy')
+    map.set('two','hannah')
+    for(let [key,value] of map){
+    	console.log(key,value)
+    }
+    </script>
+</body>
+
+</html>

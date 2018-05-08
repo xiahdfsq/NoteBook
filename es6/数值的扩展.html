@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>数值的扩展</title>
+</head>
+<body>
+	<ul>
+		<li>1:二进制新写法0B/0b10 === 2</li>
+		<li>2:八进制新写法0o/0O10 === 8</li>
+		<li>3:Number(0b10)可以将前缀为0b和0o的字符串转为10进制</li>
+		<li>4:Number.isFinite(n)当n为有限的数值时返回true;而以前的isFinite(n)会先调用Number(),isNaN()将n转化为数值类型。isFinite('15')=>true;Number.isFinite('15')=>false</li>
+		<li>5:Number.parseInt()//转为整数Number.Floate()//转为数值浮点数</li>
+		<li>6:Number.EPSILON === Math.pow(2,-52) = 2.220446049250313e-16；<br/>
+		计算浮点数的最小误差 fn withinErroMargin(left,right){
+		return Math.abs(left-right) < Number.EPSILON*Math.pow(2,2)
+		}</li>
+		<li>7:Number.isSafeInteger();JavaScript 能够准确表示的整数范围在-2^53到2^53之间（不含两个端点），超过这个范围，无法精确表示这个值。Number.MAX_SAFE_INTEGER === Math.pow(2, 53) - 1;Number.MIN_SAFE_INTEGER === -Number.MAX_SAFE_INTEGER</li>
+		<li>8:Math.trunc(n)返回数值n的整数部分=>
+			Math.trunc = Math.trunc(n) || function(n){
+				return n > 0 ? Math.floor(n) : Math.ceil(n)
+			}
+		</li>
+		<li>9:Math.sign(n)方法判断n到底是正数，负数，还是零，对于非数值，会将其转换为数值返回+1，-1,0,-0,NaN</li>
+		<li>10:Math.cbrt(n)返回n的立方根===n>0?Math.pow(n,1/3):-Math.pow(Math.abs(x),1/3)</li>
+		<li>11:Math.clz32方法返回一个数的 32 位无符号整数形式有多少个前导 0。</li>
+		<li>12:Math.imul方法返回两个数以 32 位带符号整数形式相乘的结果，返回的也是一个 32 位的带符号整数。== a * b == (a * b)|0</li>
+		<li>13:Math.fround(n)方法返回一个数的32位单精度浮点数形式;n为-2的24次方到2的24次方之间，超出计算不精确</li>
+		<li>14:Math.hypot方法返回所有参数的平方和的平方根。只要有一个参数无法转为数值，就会返回 NaN。</li>
+		<li>15:Math.expm1(x)返回 ex - 1，即Math.exp(x) - 1</li>
+		<li>16:Math.log1p(x)方法返回1 + x的自然对数，即Math.log(1 + x)。如果x小于-1，返回NaN。</li>
+		<li>17:Math.log10(x)返回以 10 为底的x的对数。如果x小于 0，则返回 NaN。</li>
+		<li>18:Math.log2(x)返回以 2 为底的x的对数。如果x小于 0，则返回 NaN。Math.log2 = Math.log2 || function(x) {
+		  return Math.log(x) / Math.LN2;
+		};</li>
+		<li>19:**是指数运算符。2***3 = 8；a**=n;表示a = n个a相乘</li>
+		<li>需要复习的数学知识：平方，立法，对数，双曲线，指数</li>
+	</ul>
+</body>
+</html>

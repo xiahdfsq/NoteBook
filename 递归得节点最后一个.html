@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<script>
+	var list = [{
+		title: 'a',
+		key: '1',
+		children: [{
+			title: 'aa',
+			key: '1-1',
+			children:[{
+				title: 'aaa',
+				key: '1-1-1'
+			}]			
+		}]
+	},{
+		title: 'b',
+		key: '2',
+		children: [{
+			title: 'bb',
+			key: '2-1',
+			children:[{
+				title: 'bbb',
+				key: '2-1-1'
+			}]
+			
+		}]
+	}]
+
+	function fn(list){
+		if(list instanceof Array){ 
+			if(list[0].children && list[0].children.length > 0){
+				return fn(list[0].children)
+			}else {
+				return list[0].key
+			} 
+		}else {
+			return list.key
+		}
+	}
+	console.log(fn(list))
+</script>
+	
+</body>
+</html>

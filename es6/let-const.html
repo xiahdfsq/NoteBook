@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>let const</title>
+</head>
+<body>
+	<ul>
+		<li>es6就是ECMAScript2015</li>
+		<li>let和const都有块级作用域</li>
+		<li>都不存在变量升级，先声明后使用，不然报错</li>
+		<li>都不能重复声明，也不能和参数重复声明</li>
+		<li>const是常量命名，定义的时候就需要去定义，一旦说明不能改变</li>
+		<li>const变量不能改变的本质是不能改变其地址，所以建议对const命名限制于基础数据（数值，布尔值，字符串），对于想对象和数组是可以声明后对其进行扩展和但不可另外new或直接赋一个数组，对象改变地址就会报错了--看JS。</li>
+		<li>暂时性死区：在块级里面存在let,const命名的变量，不会因为外面定义了全局变量而可以做到先试用-如下面JS代码</li>
+		<li>声明变量的几种方法：六种：var,function,let,const,import,class</li>
+		<li>js顶层变量属性是window，node是global,和es5之前的var function是挂钩的，es声明的不是。-如下面JS代码</li>
+		<li>es6的模块里面this指向当前模块，但是如果函数不是作为对象的方法使用，那么this和普通函数一样，还是返回的顶层对象</li>
+		<li>未理解点：可以在所有情况下，都取到顶层对象global--方法见JS</li>
+	</ul>
+<script>
+	//暂时性死区TDZ
+	var tmp = 123;//换成let也一样的效果
+
+	if (true) {
+	  tmp = 'abc'; // ReferenceError
+	  let tmp;
+	}
+
+	if (true) {
+	  // TDZ开始
+	  tmp2 = 'abc'; // ReferenceError
+	  console.log(tmp2); // ReferenceError
+
+	  let tmp2; // TDZ结束
+	  console.log(tmp2); // undefined
+
+	  tmp2 = 123;
+	  console.log(tmp); // 123
+	}
+	//const不难改变值的本质
+	const foo = {};
+
+	// 为 foo 添加一个属性，可以成功
+	foo.prop = 123;
+	foo.prop // 123
+
+	// 将 foo 指向另一个对象，就会报错
+	foo = {}; // TypeError: "foo" is read-only
+	const a = [];
+	a.push('Hello'); // 可执行
+	a.length = 0;    // 可执行
+	a = ['Dave'];    // 报错
+	//顶层变量
+	var a = 1;
+	// 如果在 Node 的 REPL 环境，可以写成 global.a
+	// 或者采用通用方法，写成 this.a
+	window.a // 1
+
+	let b = 1;
+	window.b // undefined
+
+	// 方法一
+	(typeof window !== 'undefined'
+	   ? window
+	   : (typeof process === 'object' &&
+	      typeof require === 'function' &&
+	      typeof global === 'object')
+	     ? global
+	     : this);
+
+	// 方法二
+	var getGlobal = function () {
+	  if (typeof self !== 'undefined') { return self; }
+	  if (typeof window !== 'undefined') { return window; }
+	  if (typeof global !== 'undefined') { return global; }
+	  throw new Error('unable to locate global object');
+	};
+
+	// CommonJS 的写法
+	require('system.global/shim')();
+
+	// ES6 模块的写法
+	import shim from 'system.global/shim'; shim();
+</script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>函数的扩展</title>
+</head>
+
+<body>
+    <ul>
+        <li>函数扩展</li>
+        <li>参数默认值：function fo(x,y=1){}传值是惰性的，每次调用会重新计算</li>
+        <li>默认值与解构传值结合使用，需要注意赋值一个默认对象，不然当不传值的时候会报错function({x,y=5}={console.log(x,y)})</li>
+        <li>参数默认值:推举放在最后，不然没办法省略有默认值的那个参数，省略了就 报错function f(x, y = 5, z) {};f(1,,2)//报错</li>
+        <li>函数的length属性，当遍历参数赋了默认值的时候，length就失效了</li>
+        <li>函数设置了默认值时，在初始化默认值是会形成单独作用域，完成后消失</li>
+        <li>rest参数，用...arg去省略参过来的参数，返回的是arg为一个数组，，只能写在最后一个参数那里，不然会报错;而用arguments去获取的参数是类数组遍历的时候要用Array.prototype.slice.call(arguments)</li>
+        <li>ES2016 做了一点修改，规定只要函数参数使用了默认值、解构赋值、或者扩展运算符，那么函数内部就不能显式设定为严格模式，否则会报错。</li>
+        <li>函数的name属性 var a = function(){} a.name</li>
+        <li>箭头函数var f = v => v;--常见的箭头函数普通写发见JS</li>
+    </ul>
+    <ul>
+        <li>在箭头函数中的注意点</li>
+        <li>this是固定的，指向定义的所在的对象；而不是使用的对象</li>
+        <li>不可以当作构造函数，也就是说，不可以使用new命令，否则会抛出一个错误。</li>
+        <li>不可以使用arguments对象，该对象在函数体内不存在。如果要用，可以用 rest 参数代替。</li>
+        <li>不可以使用yield命令，因此箭头函数不能用作 Generator 函数。</li>
+        <li>箭头函数里面的快级作用域里面其实没有自己的this。也就没有call,bing,apply去改变上下文了，也没有arguments，super,new.target去获取参数，这些其实是箭头函数外层的</li>
+        <li>如果箭头函数不需要参数或需要多个参数，就使用一个圆括号代表参数部分。var f = () => 5;</li>
+        <li>由于大括号被解释为代码块，所以如果箭头函数直接返回一个对象，必须在对象外面加上括号，否则会报错。let getTempItem = id => ({ id: id, name: "Temp" });</li>
+        <li>尾调用优化：我们知道，函数调用会在内存形成一个“调用记录”，又称“调用帧”（call frame），保存调用位置和内部变量等信息。如果在函数A的内部调用函数B，那么在A的调用帧上方，还会形成一个B的调用帧。等到B运行结束，将结果返回到A，B的调用帧才会消失。如果函数B内部还调用函数C，那就还有一个C的调用帧，以此类推。所有的调用帧，就形成一个“调用栈”（call stack）。尾调用由于是函数的最后一步操作，所以不需要保留外层函数的调用帧，因为调用位置、内部变量等信息都不会再用到了，只要直接用内层函数的调用帧，取代外层函数的调用帧就可以了。</li>
+        <li>尾递归：函数调用自身，称为递归。如果尾调用自身，就称为尾递归。递归非常耗费内存，因为需要同时保存成千上百个调用帧，很容易发生“栈溢出”错误（stack overflow）。但对于尾递归来说，由于只存在一个调用帧，所以永远不会发生“栈溢出”错误。</li>
+        <li>尾递归的优化：蹦床函数，返回自身一个另一个函数--见JS</li>
+    </ul>
+    <script>
+    var f = v => v;
+
+    // 等同于
+    var f = function(v) {
+        return v;
+    };
+    var f = () => 5;
+    // 等同于
+    var f = function() {
+        return 5
+    };
+
+    var sum = (num1, num2) => num1 + num2;
+    // 等同于
+    var sum = function(num1, num2) {
+        return num1 + num2;
+    };
+    //由于大括号被解释为代码块，所以如果箭头函数直接返回一个对象，必须在对象外面加上括号，否则会报错。
+    // 报错
+    // let getTempItem = id => {
+    //     id: id,
+    //     name: "Temp"
+    // };
+
+    // 不报错
+    let getTempItem = id => ({
+        id: id,
+        name: "Temp"
+    });
+    //如果箭头函数只有一行语句，且不需要返回值，
+    //可以采用下面的写法，就不用写大括号了。
+    //箭头函数可以与变量解构结合使用。
+    let fn = () => void doesNotReturn();
+    const full = ({
+        first,
+        last
+    }) => first + ' ' + last;
+
+    // 等同于
+    // function full(person) {
+    //     return person.first + ' ' + person.last;
+    // }
+    // 正常函数写法
+    [1, 2, 3].map(function(x) {
+        return x * x;
+    });
+
+    // 箭头函数写法
+    [1, 2, 3].map(x => x * x);
+
+    // 正常函数写法
+    [1, 2, 3].map(function(x) {
+        return x * x;
+    });
+
+    // 箭头函数写法
+    [1, 2, 3].map(x => x * x);
+    const numbers = (...nums) => nums;
+
+    numbers(1, 2, 3, 4, 5)
+        // [1,2,3,4,5]
+
+    const headAndTail = (head, ...tail) => [head, tail];
+
+    headAndTail(1, 2, 3, 4, 5)
+        // [1,[2,3,4,5]]
+
+
+
+    //平时的递归写法 这个会报错
+    // function sums(x, y) {
+    //   if (y > 0) {
+    //     return sums(x + 1, y - 1);
+    //   } else {
+    //     return x;
+    //   }
+    // }
+    //蹦床的写法这里是返回一个函数，然后执行该函数，而不是函数里面调用函数，这样就避免了递归执行，从而就消除了调用栈过大的问题
+    function sums(x, y) {
+        if (y > 0) {
+            return sums.call(null, x + 1, y - 1);
+        } else {
+            return x;
+        }
+    }
+
+    console.log(sums(1, 10))
+
+    function tco(f) {
+        var value;
+        var active = false;
+        var accumulated = [];
+
+        return function accumulator() {
+            accumulated.push(arguments);
+            if (!active) {
+                active = true;
+                while (accumulated.length) {
+                    value = f.apply(this, accumulated.shift());
+                }
+                active = false;
+                return value;
+            }
+        };
+    }
+
+    var sumss = tco(function(x, y) {
+        if (y > 0) {
+            return sumss(x + 1, y - 1)
+        } else {
+            return x
+        }
+    });
+
+    console.log(sumss(1, 100000))
+
+    //柯里化函数编程意思：是将多参数的函数转换成单参数的形式。这里也可以使用柯里化。
+    function currying(fn, n) {
+        return function(m) {
+            //this 指向window 这里this好像没作用
+            return fn.apply(this, m, n);
+        };
+    }
+
+    function tailFactorial(n, total) {
+        if (n === 1) return total;
+        return tailFactorial(n - 1, n * total);
+    }
+
+    const factorial = currying(tailFactorial, 1);
+
+    console.log(factorial(5)) // 120
+
+    //尾部递归与阶乘函数要分开,下面才是尾递归
+    function factorialss(n) {
+        if (n === 1) return 1;
+        return n * factorial(n - 1);
+    }
+
+    function factorial(n, total) {
+        if (n === 1) return total;
+        return factorial(n - 1, n * total);
+    }
+    //计算 Fibonacci 数列
+    //非尾递归的 Fibonacci 数列实现如下。大陆就会溢出
+    /*function Fibonacci (n) {
+      if ( n <= 1 ) {return 1};
+
+      return Fibonacci(n - 1) + Fibonacci(n - 2);
+    }
+
+    Fibonacci(10) // 89
+    Fibonacci(100) // 堆栈溢出
+    Fibonacci(500) // 堆栈溢出*/
+    //尾递归优化过的 Fibonacci 数列实现如下
+    function Fibonacci2(n, ac1 = 1, ac2 = 1) {
+        if (n <= 1) {
+            return ac2
+        };
+
+        return Fibonacci2(n - 1, ac2, ac1 + ac2);
+    }
+
+    Fibonacci2(100) // 573147844013817200000
+    //Fibonacci2(1000) // 7.0330367711422765e+208
+    //Fibonacci2(10000) // Infinity
+    </script>
+</body>
+
+</html>

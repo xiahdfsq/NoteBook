@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<ul>
+	<li>1:数组的扩展运算符...</li>
+	<li>2:数组合并[...arr1,...arr2]</li>
+	<li>3:与解构赋值结合,但是用于数组赋值...参数要放在最后一个 const [first, ...rest] = [1,2,3,4,5]</li>
+	<li>4:扩展运算符还可以将字符串转为真正的数组</li>
+	<li>5:可以将Iterator接口的对象，入类数组，转为真正的数组</li>
+	<li>6:Map 和 Set 结构，Generator 函数--见JS</li>
+	<li>7:Array.from()类数组转为数组，任何有length属性的对象</li>
+	<li>8:数组实例的copyWithin(target,start,end)</li>
+	<li>9:arr.find()返回arr中第一个符合条件的值，都没有返回undefined;arr.findIndex()返回arr中第一个符合条件的值的序号，和indexof方法有相似</li>
+	<li>10:[].fill(val,start,end)填充数组</li>
+	<li>11:arr.entries(),arr.keys(),arr.values()</li>
+	<li>12:arr.includes(val,start)</li>
+	<li>13:数组对空位的处理</li>
+<script>
+// ES5的 写法
+var arr1 = [0, 1, 2];
+var arr2 = [3, 4, 5];
+Array.prototype.push.apply(arr1, arr2);
+
+// ES6 的写法
+let arr1 = [0, 1, 2];
+let arr2 = [3, 4, 5];
+arr1.push(...arr2);	
+
+//数组克隆的方法，不止复制的地址而已
+const a1 = [1, 2];
+// 写法一
+const a2 = [...a1];
+// 写法二
+const [...a22] = a1;
+const a222 = a1.concat();
+
+var arr1 = ['a', 'b'];
+var arr2 = ['c'];
+var arr3 = ['d', 'e'];
+
+// ES5的合并数组
+arr1.concat(arr2, arr3);
+// [ 'a', 'b', 'c', 'd', 'e' ]
+
+// ES6的合并数组
+[...arr1, ...arr2, ...arr3]
+// [ 'a', 'b', 'c', 'd', 'e' ]
+
+let nodeList = document.querySelectorAll('div');
+let array = [...nodeList];
+
+let arrayLike = {
+  '0': 'a',
+  '1': 'b',
+  '2': 'c',
+  length: 3
+};
+
+// TypeError: Cannot spread non-iterable object.
+let arr452 = [...arrayLike];
+
+//Generator 函数
+let map = new Map([
+  [1, 'one'],
+  [2, 'two'],
+  [3, 'three'],
+]);
+
+let arr = [...map.keys()]; // [1, 2, 3]
+
+let arrayLike = {
+    '0': 'a',
+    '1': 'b',
+    '2': 'c',
+    length: 3
+};
+
+// ES5的写法
+var arr1 = [].slice.call(arrayLike); // ['a', 'b', 'c']
+
+// ES6的写法
+let arr2 = Array.from(arrayLike); // ['a', 'b', 'c']
+
+Array.from('hello')
+// ['h', 'e', 'l', 'l', 'o']
+
+let namesSet = new Set(['a', 'b'])
+Array.from(namesSet) // ['a', 'b']
+
+for (let index of ['a', 'b'].keys()) {
+  console.log(index);
+}
+// 0
+// 1
+
+for (let elem of ['a', 'b'].values()) {
+  console.log(elem);
+}
+// 'a'
+// 'b'
+
+for (let [index, elem] of ['a', 'b'].entries()) {
+  console.log(index, elem);
+}
+// 0 "a"
+// 1 "b"
+// 
+let letter = ['a', 'b', 'c'];
+let entries = letter.entries();
+console.log(entries.next().value); // [0, 'a']
+console.log(entries.next().value); // [1, 'b']
+console.log(entries.next().value); // [2, 'c']
+
+const contains = (() =>
+  Array.prototype.includes
+    ? (arr, value) => arr.includes(value)
+    : (arr, value) => arr.some(el => el === value)
+)();
+contains(['foo', 'bar'], 'baz'); // => false
+</script>
+</ul>	
+</body>
+</html>
