@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<script>
+	 function extend(child,parent){
+	 	var F=function(){}
+	 	F.prototype = parent.prototype;
+	 	child.prototype = new F()
+	 	child.prototype.constructor = child
+	 	child.uber = parent.prototype
+	 }
+	 function Shape(){}
+	 Shape.prototype.name = 'shape'
+	 Shape.prototype.toSring = function() {
+	 	var result = []
+	 	if(this.constructor.uber){ 
+	 		result[result.length] = this.constructor.uber.toSring()
+	 	}
+	 	result[result.length] = this.name 
+	 	return result.join(',')
+	 };
+	 function TwoDShape(){}
+	 extend(TwoDShape,Shape)
+	 TwoDShape.prototype.name='2D Shape'
+
+	 function Tringle(side,height){
+	 	this.side = side
+	 	this.height = height
+	 }
+	 extend(Tringle,TwoDShape)
+	 Tringle.prototype.name='trigle'
+	 Tringle.prototype.area=function(){
+	 	return this.side*this.height/2
+	 }
+
+	 var my = new Tringle(5,10)
+	 console.log([Tringle]) 
+	 console.log(my.toSring())
+</script>
+</body>
+</html>		
